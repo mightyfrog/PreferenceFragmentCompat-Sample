@@ -3,6 +3,7 @@ package org.mightyfrog.android.preferencefragmentcompatsample
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceScreen
 import com.google.android.material.appbar.MaterialToolbar
@@ -35,14 +36,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         if (preferenceScreen != null) {
             for (i in 0 until preferenceScreen.preferenceCount) {
-                preferenceScreen.getPreference(i).isIconSpaceReserved = false
-
-                // need to do the same to PreferenceCategory if there is any
-//                val pc = preferenceScreen.getPreference(i) as PreferenceCategory
-//                for (j in 0 until pc.preferenceCount) {
-//                    pc.getPreference(j).isIconSpaceReserved = false
-//                }
-//                pc.isIconSpaceReserved = false
+                val p = preferenceScreen.getPreference(i)
+                if (p is PreferenceCategory) {
+                    for (j in 0 until p.preferenceCount) {
+                        p.getPreference(j).isIconSpaceReserved = false
+                    }
+                } else {
+                    p.isIconSpaceReserved = false
+                }
             }
         }
     }
